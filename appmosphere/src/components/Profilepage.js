@@ -1,15 +1,34 @@
 import React from "react";
+import axios from 'axios';
 
-const Profilepage = () => {
+
+class Profilepage extends React.Component {
+    state = {
+        profilepages: []
+    };
+componentDidMount() {
+    axios.get('http://localhost:8000/api/profilepage/')
+    .then(res => {
+        const profilepages = res.data;
+        this.setState({ profilepages });
+    });
+}
+render() {
     return (
         <div>
-        <h1 className="text-4xl font-extrabold text-gray-900">Appmosphere</h1>
-        <h1>username</h1>
-        <h2>img</h2>
-        <h3>bio</h3>
-        <h1>posts</h1>
+            {this.state.profilepages.map(profilepage => (
+                <div key={profilepage.username}>
+                    <img src={profilepage.img}/>
+                    <h1>{profilepage.username} </h1>
+                    <div>{profilepage.bio}</div>
+                    <h1>posts</h1>
+                    <h1>followers</h1>
+                    <h1>following</h1>
+                    </div>
+            ))}
         </div>
     )
+}
 }
 
 export default Profilepage;
